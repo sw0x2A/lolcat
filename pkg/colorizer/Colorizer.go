@@ -1,5 +1,6 @@
 package colorizer
 
 type Colorizer interface {
-	Colorize(freq float64, i float64) string
+	Rainbowize(freq float64, i float64) string
+	Reset() string
 }

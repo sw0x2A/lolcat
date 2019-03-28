@@ -6,8 +6,12 @@ type ColorizerService struct {
 	colorizer colorizer.Colorizer
 }
 
-func (c *ColorizerService) Colorize (freq float64, i float64) string {
-	return c.colorizer.Colorize(freq, i)
+func (c *ColorizerService) Rainbowize(freq float64, i float64) string {
+	return c.colorizer.Rainbowize(freq, i)
+}
+
+func (c *ColorizerService) Reset() string {
+	return c.colorizer.Reset()
 }
 
 func NewColorizerService(c colorizer.Colorizer) *ColorizerService {

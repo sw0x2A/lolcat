@@ -33,9 +33,9 @@ func lolcat(fh *os.File) {
 	cs := services.NewColorizerService(rgbc)
 	for lineIndex := 0; scanner.Scan(); lineIndex++ {
 		for runeIndex, r := range scanner.Text() {
-			fmt.Printf("%s%c", cs.Colorize(freq, float64(seed+runeIndex+lineIndex)/spread), r)
+			fmt.Printf("%s%c", cs.Rainbowize(freq, float64(seed+runeIndex+lineIndex)/spread), r)
 		}
-		fmt.Printf("\x1b[0m\n")
+		fmt.Printf("%s\n", cs.Reset())
 	}
 }
 

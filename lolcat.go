@@ -11,8 +11,9 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/sw0x2A/lolcat/pkg/colorizer"
+	"github.com/sw0x2A/lolcat/pkg/services"
 	"log"
-	"math"
 	"math/rand"
 	"os"
 	"time"
@@ -23,20 +24,16 @@ const (
 	spread = 2.5
 )
 
-func getRainbowColors(freq float64, i float64) string {
-	red := math.Sin(freq*i+0)*127 + 128
-	green := math.Sin(freq*i+2*math.Pi/3)*127 + 128
-	blue := math.Sin(freq*i+4*math.Pi/3)*127 + 128
-	return fmt.Sprintf("\x1b[38;2;%.f;%.f;%.fm", red, green, blue)
-}
 
 func lolcat(fh *os.File) {
 	rand.Seed(time.Now().UnixNano())
 	seed := rand.Intn(255)
 	scanner := bufio.NewScanner(fh)
+	rgbc := colorizer.NewRGBColorizer()
+	cs := services.NewColorizerService(rgbc)
 	for lineIndex := 0; scanner.Scan(); lineIndex++ {
-		for runeIndex, rune := range scanner.Text() {
-			fmt.Printf("%s%c", getRainbowColors(freq, float64(seed+runeIndex+lineIndex)/spread), rune)
+		for runeIndex, r := range scanner.Text() {
+			fmt.Printf("%s%c", cs.Colorize(freq, float64(seed+runeIndex+lineIndex)/spread), r)
 		}
 		fmt.Printf("\x1b[0m\n")
 	}

@@ -9,7 +9,6 @@ import (
 	"time"
 )
 
-
 const (
 	freq   = 0.2
 	spread = 2.5

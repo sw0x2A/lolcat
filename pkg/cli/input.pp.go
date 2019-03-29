@@ -1,7 +1,9 @@
 package cli
 
-import "os"
-import "log"
+import (
+	"log"
+	"os"
+)
 
 type Input struct {
 }

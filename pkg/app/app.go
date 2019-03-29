@@ -7,18 +7,18 @@ import (
 )
 
 type App struct {
-	input *cli.Input
+	input   *cli.Input
 	service *services.ColorizerService
 }
 
 func (a *App) Run() {
-		ir := a.input.Read()
-		a.service.Colorize(ir)
+	ir := a.input.Read()
+	a.service.Colorize(ir)
 }
 
 func NewApp() *App {
 	input := cli.NewInput()
 	c := colorizer.NewRainbowColorizer()
 	cs := services.NewColorizerService(c)
-	return &App{ input, cs }
+	return &App{input, cs}
 }

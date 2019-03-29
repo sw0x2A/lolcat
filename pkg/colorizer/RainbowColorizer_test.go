@@ -1,6 +1,8 @@
 package colorizer
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestRainbowColorizer_Rainbowize(t *testing.T) {
 	type args struct {
@@ -36,6 +38,28 @@ func TestRainbowColorizer_Rainbowize(t *testing.T) {
 			c := &RainbowColorizer{}
 			if got := c.Rainbowize(tt.args.freq, tt.args.i); got != tt.want {
 				t.Errorf("RainbowColorizer.Rainbowize() = %q, want %q", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestRainbowColorizer_Reset(t *testing.T) {
+	tests := []struct {
+		name string
+		c    *RainbowColorizer
+		want string
+	}{
+		{
+			name: "reset",
+			c:    NewRainbowColorizer(),
+			want: "\x1b[0m",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &RainbowColorizer{}
+			if got := c.Reset(); got != tt.want {
+				t.Errorf("RainbowColorizer.Reset() = %v, want %v", got, tt.want)
 			}
 		})
 	}

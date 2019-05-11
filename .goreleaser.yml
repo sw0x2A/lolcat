@@ -9,15 +9,7 @@ before:
 builds:
 - env:
   - CGO_ENABLED=0
-- main : ./cmd/
-  binary: lolcal
-  goos:
-    - darwin
-    - linux
-    - windows
-  goarch:
-    - amd64
-    - arm64
+  main: ./cmd/lolcat.go
 archives:
 - replacements:
     darwin: Darwin

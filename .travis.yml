@@ -15,7 +15,7 @@ deploy:
       condition: $TRAVIS_OS_NAME = linux
 
 install:
-  - sudo apt install rpmbuild
+  - sudo apt-get install rpm
 
 before_install:
   - go get -t -v ./...

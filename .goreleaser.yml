@@ -1,16 +1,16 @@
 # This is an example goreleaser.yaml file with some sane defaults.
 # Make sure to check the documentation at http://goreleaser.com
 builds:
-- env:
-  - CGO_ENABLED=0
-  main: ./cmd/lolcat.go
+  - env:
+      - CGO_ENABLED=0
+    main: ./cmd/lolcat.go
 archives:
-- replacements:
-    darwin: Darwin
-    linux: Linux
-    windows: Windows
-    386: i386
-    amd64: x86_64
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -19,17 +19,15 @@ changelog:
   sort: asc
   filters:
     exclude:
-    - '^docs:'
-    - '^test:'
-nfpms:
-    vendor: sw0x2A
-    homepage: https://github.com/sw0x2A/lolcat
-    maintainer: sw0x2A <sw@00101010.org>
-
-    description: Simplified implementation of lolcat in Go.
-    license: MIT
-
-    formats:
-      - deb
-      - rpm
-    bindir: /usr/bin
+      - '^docs:'
+      - '^test:'
+nfpm:
+  vendor: sw0x2A
+  homepage: https://github.com/sw0x2A/lolcat
+  maintainer: sw0x2A <sw@00101010.org>
+  description: Simplified implementation of lolcat in Go.
+  license: MIT
+  formats:
+    - deb
+    - rpm
+  bindir: /usr/bin

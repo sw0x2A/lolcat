@@ -1,0 +1,11 @@
+[package]
+name = "lolcat"
+version = "0.1.0"
+authors = ["Stefan Warten <sw@00101010.org>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = "2"
+rand = "0.7.3"

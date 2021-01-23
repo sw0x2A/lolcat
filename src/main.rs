@@ -1,31 +1,37 @@
+use clap::{value_t, App, Arg};
+use rand::Rng;
 use std::fs::File;
 use std::io;
-use std::io::BufReader;
 use std::io::prelude::*;
-use clap::{App,Arg,value_t};
-use rand::Rng;
+use std::io::BufReader;
 
 fn main() {
     let args = App::new("lolcat")
         .version("0.1")
         .about("Prints in rainbow colours")
-        .arg(Arg::with_name("freq")
-            .help("frequency")
-            .short("f")
-            .long("freq")
-            .takes_value(true)
-            .required(false))
-        .arg(Arg::with_name("spread")
-            .help("spread")
-            .short("s")
-            .long("spread")
-            .takes_value(true)
-            .required(false))
-        .arg(Arg::with_name("input")
-            .index(1)
-            .help("File to search")
-            .takes_value(true)
-            .required(false))
+        .arg(
+            Arg::with_name("freq")
+                .help("frequency")
+                .short("f")
+                .long("freq")
+                .takes_value(true)
+                .required(false),
+        )
+        .arg(
+            Arg::with_name("spread")
+                .help("spread")
+                .short("s")
+                .long("spread")
+                .takes_value(true)
+                .required(false),
+        )
+        .arg(
+            Arg::with_name("input")
+                .index(1)
+                .help("File to search")
+                .takes_value(true)
+                .required(false),
+        )
         .get_matches();
 
     let freq = value_t!(args, "freq", f64).unwrap_or(0.2);
@@ -55,7 +61,11 @@ fn process_lines<T: BufRead + Sized>(reader: T, freq: f64, spread: f64) {
     for (i, line_) in reader.lines().enumerate() {
         let line = line_.unwrap();
         for (j, char) in line.chars().enumerate() {
-            print!("{}{}", get_rainbow_color((seed + i as f64 + j as f64)/spread) , char)
+            print!(
+                "{}{}",
+                get_rainbow_color((seed + i as f64 + j as f64) / spread),
+                char
+            )
         }
         println!("\x1b[0m")
     }

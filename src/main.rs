@@ -6,9 +6,9 @@ use clap::{App,Arg,value_t};
 use rand::Rng;
 
 fn main() {
-    let args = App::new("grep-lite")
+    let args = App::new("lolcat")
         .version("0.1")
-        .about("searches for patterns")
+        .about("Prints in rainbow colours")
         .arg(Arg::with_name("freq")
             .help("frequency")
             .short("f")

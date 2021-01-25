@@ -12,7 +12,7 @@ pub fn run(config: &Config) -> Result<(), Box<dyn Error>> {
         let reader = stdin.lock();
         process_lines(reader, config);
     } else {
-        let f = File::open(config.input.clone()).unwrap();
+        let f = File::open(config.input.clone())?;
         let reader = BufReader::new(f);
         process_lines(reader, config);
     }
@@ -22,6 +22,7 @@ pub fn run(config: &Config) -> Result<(), Box<dyn Error>> {
 
 pub struct Config {
     pub freq: f64,
+    pub seed: f64,
     pub spread: f64,
     pub input: String,
 }
@@ -30,19 +31,30 @@ impl Config {
     pub fn new() -> Result<Config, &'static str> {
         let args = App::new("lolcat")
             .version("0.2")
-            .about("Prints in rainbow colours")
+            .about(
+                "Concatenate FILE(s), or standard input, to standard output.
+With no FILE, or when FILE is -, read standard input.",
+            )
             .arg(
                 Arg::with_name("freq")
-                    .help("frequency")
-                    .short("f")
+                    .help("Rainbow frequency")
+                    .short("F")
                     .long("freq")
                     .takes_value(true)
                     .required(false),
             )
             .arg(
+                Arg::with_name("seed")
+                    .help("Rainbow seed, 0 = random")
+                    .short("S")
+                    .long("seed")
+                    .takes_value(true)
+                    .required(false),
+            )
+            .arg(
                 Arg::with_name("spread")
-                    .help("spread")
-                    .short("s")
+                    .help("Rainbow spread")
+                    .short("p")
                     .long("spread")
                     .takes_value(true)
                     .required(false),
@@ -50,18 +62,20 @@ impl Config {
             .arg(
                 Arg::with_name("input")
                     .index(1)
-                    .help("File to search")
+                    .help("FILE or STDIN")
                     .takes_value(true)
                     .required(false),
             )
             .get_matches();
 
         let freq = value_t!(args, "freq", f64).unwrap_or(0.2);
+        let seed = value_t!(args, "seed", f64).unwrap_or(0.0);
         let spread = value_t!(args, "spread", f64).unwrap_or(2.5);
         let input = args.value_of("input").unwrap_or("-").to_string();
 
         Ok(Config {
             freq,
+            seed,
             spread,
             input,
         })
@@ -69,7 +83,10 @@ impl Config {
 }
 
 pub fn process_lines<T: BufRead + Sized>(reader: T, config: &Config) {
-    let seed = rand::thread_rng().gen_range(0, 256) as f64;
+    let seed = match config.seed as u8 {
+        0 => rand::thread_rng().gen_range(0, 256) as f64,
+        _ => config.seed,
+    };
     let get_color = |i: f64| {
         use std::f64::consts::PI;
         let red = ((config.freq * i + 0.0).sin() * 127.0 + 128.0) as u8;

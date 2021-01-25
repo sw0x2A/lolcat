@@ -32,8 +32,8 @@ impl Config {
         let args = App::new("lolcat")
             .version("0.2")
             .about(
-                "Concatenate FILE(s), or standard input, to standard output.
-With no FILE, or when FILE is -, read standard input.",
+                "Concatenate FILE(s), or standard input, to standard output.\n\
+                 With no FILE, or when FILE is -, read standard input.",
             )
             .arg(
                 Arg::with_name("freq")

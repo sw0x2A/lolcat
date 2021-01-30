@@ -7,16 +7,17 @@ use std::io::prelude::*;
 use std::io::BufReader;
 
 pub fn run(config: &Config) -> Result<(), Box<dyn Error>> {
-    if config.input == "-" {
-        let stdin = io::stdin();
-        let reader = stdin.lock();
-        process_lines(reader, config);
-    } else {
-        let f = File::open(config.input.clone())?;
-        let reader = BufReader::new(f);
-        process_lines(reader, config);
+    for input in &config.inputs {
+        if input == "-" {
+            let stdin = io::stdin();
+            let reader = stdin.lock();
+            process_lines(reader, config);
+        } else {
+            let f = File::open(input)?;
+            let reader = BufReader::new(f);
+            process_lines(reader, config);
+        }
     }
-
     Ok(())
 }
 
@@ -24,7 +25,7 @@ pub struct Config {
     pub freq: f64,
     pub seed: f64,
     pub spread: f64,
-    pub input: String,
+    pub inputs: Vec<String>,
 }
 
 impl Config {
@@ -60,10 +61,11 @@ impl Config {
                     .required(false),
             )
             .arg(
-                Arg::with_name("input")
-                    .index(1)
+                Arg::with_name("inputs")
+                    .multiple(true)
                     .help("FILE or STDIN")
                     .takes_value(true)
+                    .default_value("-")
                     .required(false),
             )
             .get_matches();
@@ -71,13 +73,17 @@ impl Config {
         let freq = value_t!(args, "freq", f64).unwrap_or(0.2);
         let seed = value_t!(args, "seed", f64).unwrap_or(0.0);
         let spread = value_t!(args, "spread", f64).unwrap_or(2.5);
-        let input = args.value_of("input").unwrap_or("-").to_string();
+        let inputs = args
+            .values_of("inputs")
+            .unwrap()
+            .map(String::from)
+            .collect();
 
         Ok(Config {
             freq,
             seed,
             spread,
-            input,
+            inputs,
         })
     }
 }

@@ -90,7 +90,7 @@ impl Config {
 
 pub fn process_lines<T: BufRead + Sized>(reader: T, config: &Config) {
     let seed = match config.seed as u8 {
-        0 => rand::thread_rng().gen_range(0, 256) as f64,
+        0 => rand::thread_rng().gen_range(0.0..256.0),
         _ => config.seed,
     };
     let get_color = |i: f64| {

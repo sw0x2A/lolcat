@@ -2,6 +2,16 @@
 name = "lolcat"
 version = "0.2.0"
 authors = ["Stefan Warten <sw@00101010.org>"]
+description = """
+lolcat concatenates files or standard input to standard output. With rainbows.
+"""
+documentation = "https://github.com/sw0x2A/lolcat"
+homepage = "https://github.com/sw0x2A/lolcat"
+repository = "https://github.com/sw0x2A/lolcat"
+readme = "README.md"
+keywords = ["cat", "rainbow"]
+categories = ["command-line-utilities", "text-processing"]
+license = "Unlicense OR MIT"
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -9,3 +19,16 @@ edition = "2018"
 [dependencies]
 clap = "2.33.3"
 rand = "0.8.3"
+
+[package.metadata.deb]
+section = "utils"
+assets = [
+  ["target/release/lolcat", "usr/bin/", "755"],
+  ["COPYING", "usr/share/doc/lolcat/", "644"],
+  ["LICENSE", "usr/share/doc/lolcat/", "644"],
+  ["UNLICENSE", "usr/share/doc/lolcat/", "644"],
+  ["README.md", "usr/share/doc/lolcat/README", "644"],
+]
+extended-description = """\
+lolcat concatenates files or standard input to standard output. With rainbows.
+"""

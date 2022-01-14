@@ -1,4 +1,4 @@
-use clap::{value_t, App, Arg};
+use clap::{App, Arg};
 use rand::Rng;
 use std::error::Error;
 use std::fs::File;
@@ -37,32 +37,32 @@ impl Config {
                  With no FILE, or when FILE is -, read standard input.",
             )
             .arg(
-                Arg::with_name("freq")
+                Arg::new("freq")
                     .help("Rainbow frequency")
-                    .short("F")
+                    .short('F')
                     .long("freq")
                     .takes_value(true)
                     .required(false),
             )
             .arg(
-                Arg::with_name("seed")
+                Arg::new("seed")
                     .help("Rainbow seed, 0 = random")
-                    .short("S")
+                    .short('S')
                     .long("seed")
                     .takes_value(true)
                     .required(false),
             )
             .arg(
-                Arg::with_name("spread")
+                Arg::new("spread")
                     .help("Rainbow spread")
-                    .short("p")
+                    .short('p')
                     .long("spread")
                     .takes_value(true)
                     .required(false),
             )
             .arg(
-                Arg::with_name("inputs")
-                    .multiple(true)
+                Arg::new("inputs")
+                    .multiple_occurrences(true)
                     .help("FILE or STDIN")
                     .takes_value(true)
                     .default_value("-")
@@ -70,9 +70,9 @@ impl Config {
             )
             .get_matches();
 
-        let freq = value_t!(args, "freq", f64).unwrap_or(0.2);
-        let seed = value_t!(args, "seed", f64).unwrap_or(0.0);
-        let spread = value_t!(args, "spread", f64).unwrap_or(2.5);
+        let freq = args.value_of_t("freq").unwrap_or(0.2);
+        let seed = args.value_of_t("seed").unwrap_or(0.0);
+        let spread = args.value_of_t("spread").unwrap_or(2.5);
         let inputs = args
             .values_of("inputs")
             .unwrap()

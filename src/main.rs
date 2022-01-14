@@ -1,3 +1,5 @@
+#![warn(clippy::all, clippy::pedantic, clippy::cargo)]
+
 use std::process;
 
 use lolcat::Config;

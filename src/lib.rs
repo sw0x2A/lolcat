@@ -1,4 +1,4 @@
-use clap::{App, Arg};
+use clap::{Command, Arg};
 use rand::Rng;
 use std::error::Error;
 use std::fs::File;
@@ -30,7 +30,7 @@ pub struct Config {
 
 impl Config {
     pub fn new() -> Result<Config, &'static str> {
-        let args = App::new("lolcat")
+        let args = Command::new("lolcat")
             .version("0.2")
             .about(
                 "Concatenate FILE(s), or standard input, to standard output.\n\

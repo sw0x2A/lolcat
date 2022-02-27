@@ -1,4 +1,4 @@
-use clap::{Command, Arg};
+use clap::{Arg, Command};
 use rand::Rng;
 use std::error::Error;
 use std::fs::File;
